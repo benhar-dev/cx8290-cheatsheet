@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-AUTH_FILE="/etc/apt/auth.conf.d/bhf.conf"
 PACKAGE_NAME="tc31-xar-um"
 
-echo "CX8290 TwinCAT XAR setup"
-echo
+# moved sudo password to the top to prevent confusion.  
+sudo -v
 
 read -rp "MyBeckhoff email: " BECKHOFF_LOGIN
 read -rsp "MyBeckhoff password: " BECKHOFF_PASSWORD
@@ -22,10 +21,20 @@ if [ -z "$BECKHOFF_PASSWORD" ]; then
   exit 1
 fi
 
-echo "Creating Beckhoff APT authentication file..."
+echo "Creating temporary Beckhoff APT authentication file..."
 
-sudo install -d -m 755 "$(dirname "$AUTH_FILE")"
-sudo install -m 600 /dev/null "$AUTH_FILE"
+AUTH_FILE="$(sudo mktemp /tmp/bhf.XXXXXX.conf)"
+
+cleanup() {
+  if [ -n "${AUTH_FILE:-}" ]; then
+    sudo rm -f "$AUTH_FILE"
+  fi
+}
+
+trap cleanup EXIT
+
+sudo chmod 600 "$AUTH_FILE"
+sudo chown root:root "$AUTH_FILE"
 
 {
   printf "machine deb.beckhoff.com\n"
@@ -37,13 +46,15 @@ sudo install -m 600 /dev/null "$AUTH_FILE"
   printf "password %s\n" "$BECKHOFF_PASSWORD"
 } | sudo tee "$AUTH_FILE" > /dev/null
 
-sudo chmod 600 "$AUTH_FILE"
+unset BECKHOFF_PASSWORD
+
+APT_AUTH_OPTION=(-o "Dir::Etc::netrc=$AUTH_FILE")
 
 echo "Updating package lists..."
-sudo apt update
+sudo apt-get "${APT_AUTH_OPTION[@]}" update
 
 echo "Installing TwinCAT 3 XAR package: $PACKAGE_NAME"
-sudo apt install -y "$PACKAGE_NAME"
+sudo apt-get "${APT_AUTH_OPTION[@]}" install -y "$PACKAGE_NAME"
 
 echo
 echo "CX8290 setup complete."
