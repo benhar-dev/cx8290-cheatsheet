@@ -102,7 +102,7 @@ Type the password and press Enter.
 ## Configure Beckhoff Package Access
 
 > [!CAUTION]
-> Passwords stored here are held in plain text. To reduce the risk of a credential leak, the authentication file can be saved temporarily and deleted after use (information for this can be found on Infosys). 
+> Passwords stored here are held in plain text. To reduce the risk of a credential leak, the authentication file can be saved temporarily and deleted after use (information for this can be found on Infosys).
 
 Once connected to the CX8290 over SSH, configure the Beckhoff package repository credentials.
 
@@ -216,13 +216,22 @@ Install TwinCAT 3 XAR:
 sudo apt install tc31-xar-um
 ```
 
-## Quick Start Script (One-Liner)
+## Quick Start Script - Save Credentials (One-Liner)
 
-For those of you who which to automate the configuration of your device, you can use .sh files.  
-The command below will run the `./scripts/cx8290-setup.sh` script which will automate the last three steps of the above summary.
+The command below will run the `./scripts/cx8290-setup-save.sh` script which will automate the last three steps of the above summary. Your credentials will be saved in `bhf.conf`.
 
 ```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/benhar-dev/cx8290-cheatsheet/main/scripts/cx8290-setup.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/benhar-dev/cx8290-cheatsheet/main/scripts/cx8290-setup-save.sh)"
 ```
 
-You can run the script multiple times without any issues.  I.e. if you need to change your email or password in the future. 
+You can run the script multiple times without any issues. I.e. if you need to change your email or password in the future.
+
+## Quick Start Script - Temporary Credentials (One-Liner)
+
+The command below will run the `./scripts/cx8290-setup-temp.sh` script which will automate the last three steps of the above summary.
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/benhar-dev/cx8290-cheatsheet/main/scripts/cx8290-setup-temp.sh)"
+```
+
+Power cycling the controller will remove your credentials.
