@@ -221,3 +221,5 @@ The command below will run the `./scripts/cx8290-setup.sh` script which will aut
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/benhar-dev/cx8290-cheatsheet/main/scripts/cx8290-setup.sh)"
 ```
+
+You can run the script multiple times without any issues.  I.e. if you need to change your email or password in the future. 
