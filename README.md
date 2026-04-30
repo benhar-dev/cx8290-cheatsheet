@@ -101,6 +101,9 @@ Type the password and press Enter.
 
 ## Configure Beckhoff Package Access
 
+> [!CAUTION]
+> Passwords stored here are held in plain text. To reduce the risk of a credential leak, the authentication file can be saved temporarily and deleted after use (information for this can be found on Infosys). 
+
 Once connected to the CX8290 over SSH, configure the Beckhoff package repository credentials.
 
 Open the authentication file using `nano`:
