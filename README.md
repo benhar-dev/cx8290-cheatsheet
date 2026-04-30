@@ -161,7 +161,11 @@ y
 
 Then press Enter to continue.
 
-## Quick Command Summary
+## Done!
+
+You can now open your programming computer XAE and broadcast search to find your CX8290
+
+## Quick Command Summary of the steps above
 
 Convert your MAC address to an IPv6 link-local address using:
 
@@ -211,7 +215,8 @@ sudo apt install tc31-xar-um
 
 ## Quick Start Script (One-Liner)
 
-Run this single command to update your bhf.conf and install TwinCAT XAR:
+For those of you who which to automate the configuration of your device, you can use .sh files.  
+The command below will run the `./scripts/cx8290-setup.sh` script which will automate the last three steps of the above summary.
 
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/benhar-dev/cx8290-cheatsheet/main/scripts/cx8290-setup.sh)"
